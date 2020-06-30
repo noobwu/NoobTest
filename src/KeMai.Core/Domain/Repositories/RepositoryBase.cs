@@ -24,6 +24,9 @@ namespace KeMai.Domain.Repositories
         /// 
         /// </summary>
         protected DefaultConnectionFactory DbFactory;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RepositoryBase{TEntity}"/> class.
+        /// </summary>
         public RepositoryBase()
         {
             DbFactory = new OrmLiteConnectionFactory(null, SqlServer2012Dialect.Provider);
