@@ -56,6 +56,25 @@ namespace KeMai.Domain.Repositories
         /// </summary>
         protected virtual IOrmLiteDialectProvider DialectProvider { get; private set; }
         /// <summary>
+        /// Inserts the specified entity to insert.
+        /// </summary>
+        /// <param name="entityToInsert">The entity to insert.</param>
+        /// <param name="connection">The connection.</param>
+        /// <param name="trans">The trans.</param>
+        /// <returns>System.Int32.</returns>
+        public virtual int Insert( TEntity entityToInsert, IDbConnection connection, IDbTransaction trans)
+        {
+            if (entityToInsert == null) return -1;
+            var hanlerResult = DialectProvider.ToInsertStatement<TEntity>();
+            string sql = hanlerResult.Item1;
+            if (hanlerResult.Item2)
+            {
+                sql += DialectProvider.GetLastInsertIdSqlSuffix<TEntity>();
+                return connection.ExecuteScalar<int>(sql, entityToInsert,trans);
+            }
+            return connection.Execute(sql, entityToInsert,trans);
+        }
+        /// <summary>
         /// Inserts an entity into table "Ts" and returns identity id or number.
         /// </summary>
         /// <param name="connectionString"></param>
@@ -66,15 +85,31 @@ namespace KeMai.Domain.Repositories
             if (entityToInsert == null) return -1;
             var hanlerResult = DialectProvider.ToInsertStatement<TEntity>();
             string sql = hanlerResult.Item1;
-            var connection = DbFactory.OpenDbConnectionString(connectionString);
             if (hanlerResult.Item2)
             {
                 sql += DialectProvider.GetLastInsertIdSqlSuffix<TEntity>();
+            }
+            var connection = DbFactory.OpenDbConnectionString(connectionString);
+            if (hanlerResult.Item2)
+            {
                 return connection.ExecuteScalar<int>(sql, entityToInsert);
             }
             return connection.Execute(sql, entityToInsert);
         }
-
+        /// <summary>
+        /// Inserts the list.
+        /// </summary>
+        /// <param name="entities">The entities.</param>
+        /// <param name="connection">The connection.</param>
+        /// <param name="trans">The trans.</param>
+        /// <returns>System.Int32.</returns>
+        public virtual int InsertList(IEnumerable<TEntity> entities, IDbConnection connection, IDbTransaction trans)
+        {
+            if (entities == null || entities.Count() == 0) return -1;
+            var hanlerResult = DialectProvider.ToInsertStatement<IEnumerable<TEntity>>();
+            string sql = hanlerResult.Item1;
+            return connection.Execute(sql, entities,trans);
+        }
 
         /// <summary>
         /// Inserts entities into table "Ts" and returns number.
