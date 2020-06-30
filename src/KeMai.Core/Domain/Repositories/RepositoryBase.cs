@@ -17,15 +17,14 @@ namespace KeMai.Domain.Repositories
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TPrimaryKey"></typeparam>
-    public class RepositoryBaseOfTPrimaryKey<TEntity, TPrimaryKey> where TEntity : class, IEntity<TPrimaryKey>
+    public class RepositoryBase<TEntity> where TEntity : class
     {
-
         #region OrmLite
         /// <summary>
         /// 
         /// </summary>
         protected DefaultConnectionFactory DbFactory;
-        public RepositoryBaseOfTPrimaryKey()
+        public RepositoryBase()
         {
             DbFactory = new OrmLiteConnectionFactory(null, SqlServer2012Dialect.Provider);
             var type = typeof(TEntity);
@@ -53,8 +52,6 @@ namespace KeMai.Domain.Repositories
         /// 
         /// </summary>
         protected virtual IOrmLiteDialectProvider DialectProvider { get; private set; }
-
-
         /// <summary>
         /// Inserts an entity into table "Ts" and returns identity id or number.
         /// </summary>
@@ -84,41 +81,11 @@ namespace KeMai.Domain.Repositories
         /// <returns>number</returns>
         public virtual int InsertList(string connectionString, IEnumerable<TEntity> entities)
         {
-            if (entities == null||entities.Count()==0) return -1;
+            if (entities == null || entities.Count() == 0) return -1;
             var hanlerResult = DialectProvider.ToInsertStatement<IEnumerable<TEntity>>();
             string sql = hanlerResult.Item1;
             var connection = DbFactory.OpenDbConnectionString(connectionString);
             return connection.Execute(sql, entities);
-        }
-		
-        /// <summary>
-        /// Update an entity into table "Ts" and returns  number .
-        /// </summary>
-        /// <param name="connectionString"></param>
-        /// <param name="entityToUpdate">Entity to Update</param>
-        /// <returns></returns>
-        public virtual int UpdateNonDefaults(string connectionString, TEntity entityToUpdate, TPrimaryKey id)
-        {
-            if (entityToUpdate == null) return -1;
-            if (string.IsNullOrEmpty(PrimaryFieldName)) return -1;
-            string whereExpression = DialectProvider.GetQuotedColumnName(PrimaryFieldName) + "=@Id";
-            return Update(connectionString, entityToUpdate, whereExpression, new { Id = id }, null, true);
-        }
-        /// <summary>
-        /// Update an entity into table "Ts" and returns  number .
-        /// </summary>
-        /// <param name="connectionString"></param>
-        /// <param name="entityToUpdate">Entity to Update</param>
-        /// <param name="id"></param>
-        /// <param name="updateFields">需要更新的列</param>
-        /// <param name="excludeDefaults">是否排除更新默认值</param>
-        /// <returns></returns>
-        public virtual int Update(string connectionString, TEntity entityToUpdate, TPrimaryKey id, ICollection<string> updateFields = null, bool excludeDefaults = false)
-        {
-            if (entityToUpdate == null) return -1;
-            if (string.IsNullOrEmpty(PrimaryFieldName)) return -1;
-            string whereExpression = DialectProvider.GetQuotedColumnName(PrimaryFieldName) + "=@Id";
-            return Update(connectionString, entityToUpdate, whereExpression, new { Id = id }, updateFields, excludeDefaults);
         }
 
         /// <summary>
@@ -169,22 +136,6 @@ namespace KeMai.Domain.Repositories
                 return conn.Execute(sql, dynamicParameters);
             }
         }
-
-
-        /// <summary>
-        /// Update an entity into table "Ts" and returns  number .
-        /// </summary>
-        /// <param name="connectionString"></param>
-        /// <param name="updateOnly"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public virtual int UpdateOnly(string connectionString, object updateOnly, TPrimaryKey id)
-        {
-            if (updateOnly == null) return -1;
-            if (string.IsNullOrEmpty(PrimaryFieldName)) return -1;
-            string whereExpression = DialectProvider.GetQuotedColumnName(PrimaryFieldName) + "=@Id";
-            return UpdateOnly(connectionString, updateOnly, whereExpression, new { Id = id });
-        }
         /// <summary>
         /// Update an entity into table "Ts" and returns  number .
         /// </summary>
@@ -221,21 +172,6 @@ namespace KeMai.Domain.Repositories
                 return conn.Execute(sql, dynamicParameters);
             }
         }
-
-        /// <summary>
-        /// Update an entity into table "Ts" and returns  number .
-        /// </summary>
-        /// <param name="connectionString"></param>
-        /// <param name="updateOnly"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public virtual int UpdateOnly(string connectionString, Expression<Func<TEntity>> updateFields, TPrimaryKey id)
-        {
-            if (updateFields == null) return -1;
-            if (string.IsNullOrEmpty(PrimaryFieldName)) return -1;
-            string whereExpression = DialectProvider.GetQuotedColumnName(PrimaryFieldName) + "=@Id";
-            return UpdateOnly(connectionString, updateFields, whereExpression, new { Id = id });
-        }
         /// <summary>
         /// Update an entity into table "Ts" and returns  number .
         /// </summary>
@@ -253,7 +189,7 @@ namespace KeMai.Domain.Repositories
             {
                 return -2;
             }
-            return Update(connectionString,updateFieldValues,whereExpression,parameters);
+            return Update(connectionString, updateFieldValues, whereExpression, parameters);
         }
         /// <summary>
         /// Update an Dic into table "Ts" and returns  number .
@@ -292,19 +228,6 @@ namespace KeMai.Domain.Repositories
         /// <summary>
         ///Delete data returns  number .
         /// </summary>
-        /// <param name="connectionString"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public virtual int Delete(string connectionString, TPrimaryKey id)
-        {
-            if (id == null) return -1;
-            if (string.IsNullOrEmpty(PrimaryFieldName)) return -1;
-            string whereExpression = string.Format("WHERE {0}={1}", PrimaryFieldName, DialectProvider.GetParam("Id"));
-            return Delete(connectionString, whereExpression, new { Id = id });
-        }
-        /// <summary>
-        ///Delete data returns  number .
-        /// </summary>
         /// <param name="connectionString">Open SqlConnection</param>
         /// <param name="whereExpression"></param>
         /// <param name="parameters"></param>
@@ -322,24 +245,12 @@ namespace KeMai.Domain.Repositories
         /// Gets an entity with given primary key.
         /// </summary>
         /// <param name="connectionString"></param>
-        /// <param name="id">Primary key of the entity to get</param>
-        /// <returns>Entity</returns>
-        public virtual TEntity Single(string connectionString, TPrimaryKey id)
-        {
-            string whereExpression = string.Format("{1}={2}", TableName, PrimaryFieldName, DialectProvider.GetParam("Id"));
-            return Single(connectionString, whereExpression, new { Id = id });
-        }
-		
-		 /// <summary>
-        /// Gets an entity with given primary key.
-        /// </summary>
-        /// <param name="connectionString"></param>
         /// <param name="sql"></param>
         /// <param name="param"></param>
         /// <returns>Entity</returns>
         protected virtual TEntity Single(string connectionString, string whereExpression, object param)
         {
-			if (string.IsNullOrEmpty(whereExpression)) return null;
+            if (string.IsNullOrEmpty(whereExpression)) return null;
             string sql = string.Format("SELECT * FROM {0} WHERE {1}", TableName, whereExpression);
             return SingleBySql(connectionString, sql, param);
         }
@@ -423,6 +334,7 @@ namespace KeMai.Domain.Repositories
                 return conn.Execute(sql, param);
             }
         }
+
         /// <summary>
         /// 获取分页数据
         /// </summary>
@@ -508,6 +420,105 @@ namespace KeMai.Domain.Repositories
         public virtual IDbConnection OpenDbConnection(string dbConnectionString)
         {
             return DbFactory.OpenDbConnectionString(dbConnectionString);
+        }
+
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TPrimaryKey"></typeparam>
+    public class RepositoryBaseOfTPrimaryKey<TEntity, TPrimaryKey> : RepositoryBase<TEntity> where TEntity : class, IEntity<TPrimaryKey>
+    {
+
+
+        /// <summary>
+        /// Update an entity into table "Ts" and returns  number .
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <param name="entityToUpdate">Entity to Update</param>
+        /// <returns></returns>
+        public virtual int UpdateNonDefaults(string connectionString, TEntity entityToUpdate, TPrimaryKey id)
+        {
+            if (entityToUpdate == null) return -1;
+            if (string.IsNullOrEmpty(PrimaryFieldName)) return -1;
+            string whereExpression = DialectProvider.GetQuotedColumnName(PrimaryFieldName) + "=@Id";
+            return Update(connectionString, entityToUpdate, whereExpression, new { Id = id }, null, true);
+        }
+        /// <summary>
+        /// Update an entity into table "Ts" and returns  number .
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <param name="entityToUpdate">Entity to Update</param>
+        /// <param name="id"></param>
+        /// <param name="updateFields">需要更新的列</param>
+        /// <param name="excludeDefaults">是否排除更新默认值</param>
+        /// <returns></returns>
+        public virtual int Update(string connectionString, TEntity entityToUpdate, TPrimaryKey id, ICollection<string> updateFields = null, bool excludeDefaults = false)
+        {
+            if (entityToUpdate == null) return -1;
+            if (string.IsNullOrEmpty(PrimaryFieldName)) return -1;
+            string whereExpression = DialectProvider.GetQuotedColumnName(PrimaryFieldName) + "=@Id";
+            return Update(connectionString, entityToUpdate, whereExpression, new { Id = id }, updateFields, excludeDefaults);
+        }
+
+
+
+        /// <summary>
+        /// Update an entity into table "Ts" and returns  number .
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <param name="updateOnly"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public virtual int UpdateOnly(string connectionString, object updateOnly, TPrimaryKey id)
+        {
+            if (updateOnly == null) return -1;
+            if (string.IsNullOrEmpty(PrimaryFieldName)) return -1;
+            string whereExpression = DialectProvider.GetQuotedColumnName(PrimaryFieldName) + "=@Id";
+            return UpdateOnly(connectionString, updateOnly, whereExpression, new { Id = id });
+        }
+  
+
+        /// <summary>
+        /// Update an entity into table "Ts" and returns  number .
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <param name="updateOnly"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public virtual int UpdateOnly(string connectionString, Expression<Func<TEntity>> updateFields, TPrimaryKey id)
+        {
+            if (updateFields == null) return -1;
+            if (string.IsNullOrEmpty(PrimaryFieldName)) return -1;
+            string whereExpression = DialectProvider.GetQuotedColumnName(PrimaryFieldName) + "=@Id";
+            return UpdateOnly(connectionString, updateFields, whereExpression, new { Id = id });
+        }
+      
+        /// <summary>
+        ///Delete data returns  number .
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public virtual int Delete(string connectionString, TPrimaryKey id)
+        {
+            if (id == null) return -1;
+            if (string.IsNullOrEmpty(PrimaryFieldName)) return -1;
+            string whereExpression = string.Format("WHERE {0}={1}", PrimaryFieldName, DialectProvider.GetParam("Id"));
+            return Delete(connectionString, whereExpression, new { Id = id });
+        }
+
+        /// <summary>
+        /// Gets an entity with given primary key.
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <param name="id">Primary key of the entity to get</param>
+        /// <returns>Entity</returns>
+        public virtual TEntity Single(string connectionString, TPrimaryKey id)
+        {
+            string whereExpression = string.Format("{1}={2}", TableName, PrimaryFieldName, DialectProvider.GetParam("Id"));
+            return Single(connectionString, whereExpression, new { Id = id });
         }
         #endregion 
     }
