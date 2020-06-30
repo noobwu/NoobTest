@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CCCB85EB-B784-47AB-BCBF-A6B23423570B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>KeMai</RootNamespace>
+    <AssemblyName>KeMai.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.2\lib\net40\Dapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\AttributeBase.cs" />
+    <Compile Include="DataAnnotations\AliasAttribute.cs" />
+    <Compile Include="DataAnnotations\AutoIncrementAttribute.cs" />
+    <Compile Include="DataAnnotations\ComputeAttribute.cs" />
+    <Compile Include="DataAnnotations\DefaultAttribute.cs" />
+    <Compile Include="DataAnnotations\EnumAsIntAttribute.cs" />
+    <Compile Include="DataAnnotations\IgnoreAttribute.cs" />
+    <Compile Include="DataAnnotations\IndexAttribute.cs" />
+    <Compile Include="DataAnnotations\PrimaryKeyAttribute.cs" />
+    <Compile Include="DataAnnotations\RequiredAttribute.cs" />
+    <Compile Include="DataAnnotations\RowVersionAttribute.cs" />
+    <Compile Include="DataAnnotations\SchemaAttribute.cs" />
+    <Compile Include="DataAnnotations\StringLengthAttribute.cs" />
+    <Compile Include="Data\Common\DbConnectionFactory.cs" />
+    <Compile Include="Data\Common\DbDialectProviderBase.cs" />
+    <Compile Include="Data\Common\DefaultConnection.cs" />
+    <Compile Include="Data\Common\DefaultConnectionFactory.cs" />
+    <Compile Include="Data\Common\IDbConnectionFactory.cs" />
+    <Compile Include="Data\Common\IDbDialectProvider.cs" />
+    <Compile Include="Data\Common\IHasDbConnection.cs" />
+    <Compile Include="Data\Expressions\CachedExpressionCompiler.cs" />
+    <Compile Include="Data\Expressions\ExpressionExtensions.cs" />
+    <Compile Include="Data\Expressions\ExpressionUtils.cs" />
+    <Compile Include="Data\Expressions\ExpressionVisitorExtensions.cs" />
+    <Compile Include="Data\Expressions\ParameterRebinder.cs" />
+    <Compile Include="Data\Expressions\PredicateBuilder.cs" />
+    <Compile Include="Data\Expressions\SqlExpressionVisitor.cs" />
+    <Compile Include="Data\Orderable.cs" />
+    <Compile Include="Domain\Entities\Entity.cs" />
+    <Compile Include="Domain\Entities\IEntity.cs" />
+    <Compile Include="Domain\Entities\IEntityOfTPrimaryKey.cs" />
+    <Compile Include="Domain\Entities\ISoftDelete.cs" />
+    <Compile Include="Domain\Repositories\RepositoryBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reflections\Extensions\ReflectionExtensions.cs" />
+    <Compile Include="Reflections\Extensions\TypeExtensions.cs" />
+    <Compile Include="StackExchange\DapperOrmLites\FieldDefinition.cs" />
+    <Compile Include="StackExchange\DapperOrmLites\INamingStrategy.cs" />
+    <Compile Include="StackExchange\DapperOrmLites\IOrmLiteDialectProvider.cs" />
+    <Compile Include="StackExchange\DapperOrmLites\ModelDefinition.cs" />
+    <Compile Include="StackExchange\DapperOrmLites\NamingStrategy.cs" />
+    <Compile Include="StackExchange\DapperOrmLites\OrmLiteConfig.cs" />
+    <Compile Include="StackExchange\DapperOrmLites\OrmLiteConfigExtensions.cs" />
+    <Compile Include="StackExchange\DapperOrmLites\OrmLiteConnection.cs" />
+    <Compile Include="StackExchange\DapperOrmLites\OrmLiteConnectionFactory.cs" />
+    <Compile Include="StackExchange\DapperOrmLites\OrmLiteDialectProviderBase.cs" />
+    <Compile Include="StackExchange\DapperOrmLites\OrmLiteDialectProviderExtensions.cs" />
+    <Compile Include="StackExchange\DapperOrmLites\OrmLiteExpressionExtensions.cs" />
+    <Compile Include="StackExchange\DapperOrmLites\OrmLiteNamingStrategyBase.cs" />
+    <Compile Include="StackExchange\DapperOrmLites\OrmLiteUtils.cs" />
+    <Compile Include="StackExchange\DapperOrmLites\SqlExpression.cs" />
+    <Compile Include="StackExchange\DapperOrmLites\SqlServer\SqlServer2012OrmLiteDialectProvider.cs" />
+    <Compile Include="StackExchange\DapperOrmLites\SqlServer\SqlServer2014OrmLiteDialectProvider.cs" />
+    <Compile Include="StackExchange\DapperOrmLites\SqlServer\SqlServerDialect.cs" />
+    <Compile Include="StackExchange\DapperOrmLites\SqlServer\SqlServerOrmLiteDialectProvider.cs" />
+    <Compile Include="StackExchange\Dapper\SqlBuilder.cs" />
+    <Compile Include="StackExchange\Dapper\SqlSelectBuilder.cs" />
+    <Compile Include="Text\DoubleConverter.cs" />
+    <Compile Include="Text\PlatformExtensions.cs" />
+    <Compile Include="Text\RandomData.cs" />
+    <Compile Include="Text\StringBuilderCache.cs" />
+    <Compile Include="Text\StringExtensions.cs" />
+    <Compile Include="Text\StringWriterCache.cs" />
+    <Compile Include="Text\TypeConstants.cs" />
+    <Compile Include="Text\TypeProperties.cs" />
+    <Compile Include="Text\ValueConstants.cs" />
+    <Compile Include="Utility\AutoMappingUtils.cs" />
+    <Compile Include="Utility\IdUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

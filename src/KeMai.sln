@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeMai.Core.Net45", "KeMai.Core\KeMai.Core.Net45.csproj", "{CCCB85EB-B784-47AB-BCBF-A6B23423570B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{78606F44-5E50-4A5B-826E-C3AB5C823D91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeMai.Core.Tests.Net45", "..\Tests\KeMai.Core.Tests\KeMai.Core.Tests.Net45.csproj", "{F512D172-BF1E-4631-A5E8-86D474142ACB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeMai.Core.Net40", "KeMai.Core\KeMai.Core.Net40.csproj", "{D4A3B15C-C29D-46B4-A199-479993DC5AF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeMai.Core.Tests.Net40", "..\Tests\KeMai.Core.Tests\KeMai.Core.Tests.Net40.csproj", "{85C68452-1078-47F5-8737-0B6223934B7C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CCCB85EB-B784-47AB-BCBF-A6B23423570B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCCB85EB-B784-47AB-BCBF-A6B23423570B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCCB85EB-B784-47AB-BCBF-A6B23423570B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCCB85EB-B784-47AB-BCBF-A6B23423570B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F512D172-BF1E-4631-A5E8-86D474142ACB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F512D172-BF1E-4631-A5E8-86D474142ACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F512D172-BF1E-4631-A5E8-86D474142ACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F512D172-BF1E-4631-A5E8-86D474142ACB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4A3B15C-C29D-46B4-A199-479993DC5AF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4A3B15C-C29D-46B4-A199-479993DC5AF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4A3B15C-C29D-46B4-A199-479993DC5AF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4A3B15C-C29D-46B4-A199-479993DC5AF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85C68452-1078-47F5-8737-0B6223934B7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85C68452-1078-47F5-8737-0B6223934B7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85C68452-1078-47F5-8737-0B6223934B7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85C68452-1078-47F5-8737-0B6223934B7C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F512D172-BF1E-4631-A5E8-86D474142ACB} = {78606F44-5E50-4A5B-826E-C3AB5C823D91}
+		{85C68452-1078-47F5-8737-0B6223934B7C} = {78606F44-5E50-4A5B-826E-C3AB5C823D91}
+	EndGlobalSection
+EndGlobal
